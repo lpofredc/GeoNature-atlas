@@ -33,6 +33,7 @@ if current_app.config["EXTENDED_AREAS"]:
 
 main = Blueprint("main", __name__)
 
+cache = utils.cache
 
 @main.context_processor
 def global_variables():
@@ -47,6 +48,7 @@ def global_variables():
     "/espece/" + current_app.config["REMOTE_MEDIAS_PATH"] + "<image>",
     methods=["GET", "POST"],
 )
+@cache.cached()
 def especeMedias(image):
     return redirect(
         current_app.config["REMOTE_MEDIAS_URL"]
@@ -59,6 +61,7 @@ def especeMedias(image):
     "/commune/" + current_app.config["REMOTE_MEDIAS_PATH"] + "<image>",
     methods=["GET", "POST"],
 )
+@cache.cached()
 def communeMedias(image):
     return redirect(
         current_app.config["REMOTE_MEDIAS_URL"]
@@ -71,6 +74,7 @@ def communeMedias(image):
     "/liste/" + current_app.config["REMOTE_MEDIAS_PATH"] + "<image>",
     methods=["GET", "POST"],
 )
+@cache.cached()
 def listeMedias(image):
     return redirect(
         current_app.config["REMOTE_MEDIAS_URL"]
@@ -83,6 +87,7 @@ def listeMedias(image):
     "/groupe/" + current_app.config["REMOTE_MEDIAS_PATH"] + "<image>",
     methods=["GET", "POST"],
 )
+@cache.cached()
 def groupeMedias(image):
     return redirect(
         current_app.config["REMOTE_MEDIAS_URL"]
@@ -94,6 +99,7 @@ def groupeMedias(image):
 @main.route(
     "/" + current_app.config["REMOTE_MEDIAS_PATH"] + "<image>", methods=["GET", "POST"]
 )
+@cache.cached()
 def indexMedias(image):
     return redirect(
         current_app.config["REMOTE_MEDIAS_URL"]
@@ -103,6 +109,7 @@ def indexMedias(image):
 
 
 @main.route("/", methods=["GET", "POST"])
+@cache.cached()
 def index():
     session = utils.loadSession()
     connection = utils.engine.connect()
@@ -160,6 +167,7 @@ def index():
 
 
 @main.route("/espece/<int:cd_ref>", methods=["GET", "POST"])
+@cache.cached()
 def ficheEspece(cd_ref):
     session = utils.loadSession()
     connection = utils.engine.connect()
@@ -226,6 +234,7 @@ def ficheEspece(cd_ref):
 
 
 @main.route("/commune/<insee>", methods=["GET", "POST"])
+@cache.cached()
 def ficheCommune(insee):
     session = utils.loadSession()
     connection = utils.engine.connect()
@@ -265,6 +274,7 @@ def ficheCommune(insee):
 
 
 @main.route("/liste/<cd_ref>", methods=["GET", "POST"])
+@cache.cached()
 def ficheRangTaxonomie(cd_ref):
     session = utils.loadSession()
     connection = utils.engine.connect()
@@ -288,6 +298,7 @@ def ficheRangTaxonomie(cd_ref):
 
 
 @main.route("/groupe/<groupe>", methods=["GET", "POST"])
+@cache.cached()
 def ficheGroupe(groupe):
     session = utils.loadSession()
     connection = utils.engine.connect()
@@ -310,6 +321,7 @@ def ficheGroupe(groupe):
 
 
 @main.route("/photos", methods=["GET", "POST"])
+@cache.cached()
 def photos():
     session = utils.loadSession()
     connection = utils.engine.connect()
@@ -322,6 +334,7 @@ def photos():
 
 
 @main.route("/<page>", methods=["GET", "POST"])
+@cache.cached()
 def get_staticpages(page):
     session = utils.loadSession()
     if page not in current_app.config["STATIC_PAGES"]:
@@ -332,6 +345,7 @@ def get_staticpages(page):
 
 
 @main.route("/sitemap.xml", methods=["GET"])
+@cache.cached()
 def sitemap():
     """Generate sitemap.xml iterating over static and dynamic routes to make a list of urls and date modified"""
     pages = []
@@ -377,6 +391,7 @@ def sitemap():
 
 
 @main.route("/robots.txt", methods=["GET"])
+@cache.cached()
 def robots():
     robots_template = render_template("templates/robots.txt")
     response = make_response(robots_template)
@@ -387,6 +402,7 @@ def robots():
 if current_app.config["EXTENDED_AREAS"]:
 
     @main.route("/area/<type_code>/<area_code>", methods=["GET", "POST"])
+    @cache.cached()
     def areaSheet(type_code, area_code):
         session = utils.loadSession()
         connection = utils.engine.connect()

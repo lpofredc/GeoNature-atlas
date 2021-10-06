@@ -3,8 +3,12 @@
 from sqlalchemy import MetaData
 from sqlalchemy import create_engine
 from sqlalchemy.pool import QueuePool
+from flask_caching import Cache
 
 from atlas.configuration.config import database_connection, NOM_APPLICATION
+
+
+cache = Cache(config={"CACHE_TYPE": "SimpleCache","CACHE_DEFAULT_TIMEOUT": 7200})
 
 engine = create_engine(
     database_connection,

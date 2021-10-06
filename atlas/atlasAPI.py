@@ -13,6 +13,7 @@ from atlas.modeles.repositories import (
 
 api = Blueprint("api", __name__)
 
+cache = utils.cache
 
 @api.route("/searchTaxon", methods=["GET"])
 def searchTaxonAPI():
@@ -52,6 +53,7 @@ if not current_app.config['AFFICHAGE_MAILLE']:
 
 
 @api.route("/observationsMaille/<int:cd_ref>", methods=["GET"])
+@cache.cached()
 def getObservationsMailleAPI(cd_ref, year_min=None, year_max=None):
     """
         Retourne les observations d'un taxon par maille (et le nombre d'observation par maille)
@@ -73,6 +75,7 @@ def getObservationsMailleAPI(cd_ref, year_min=None, year_max=None):
 
 if not current_app.config['AFFICHAGE_MAILLE']:
     @api.route("/observationsPoint/<int:cd_ref>", methods=["GET"])
+    @cache.cached()
     def getObservationsPointAPI(cd_ref):
         session = utils.loadSession()
         observations = vmObservationsRepository.searchObservationsChilds(session, cd_ref)
@@ -82,6 +85,7 @@ if not current_app.config['AFFICHAGE_MAILLE']:
 
 
 @api.route("/observations/<int:cd_ref>", methods=["GET"])
+@cache.cached()
 def getObservationsGenericApi(cd_ref: int):
     """[summary]
 
@@ -104,6 +108,7 @@ def getObservationsGenericApi(cd_ref: int):
 
 if not current_app.config['AFFICHAGE_MAILLE']:
     @api.route("/observations/<insee>/<int:cd_ref>", methods=["GET"])
+    @cache.cached()
     def getObservationsCommuneTaxonAPI(insee, cd_ref):
         connection = utils.engine.connect()
         observations = vmObservationsRepository.getObservationTaxonCommune(
@@ -114,6 +119,7 @@ if not current_app.config['AFFICHAGE_MAILLE']:
 
 
 @api.route("/observationsMaille/<insee>/<int:cd_ref>", methods=["GET"])
+@cache.cached()
 def getObservationsCommuneTaxonMailleAPI(insee, cd_ref):
     connection = utils.engine.connect()
     observations = vmObservationsMaillesRepository.getObservationsTaxonCommuneMaille(
@@ -124,6 +130,7 @@ def getObservationsCommuneTaxonMailleAPI(insee, cd_ref):
 
 
 @api.route("/photoGroup/<group>", methods=["GET"])
+@cache.cached()
 def getPhotosGroup(group):
     connection = utils.engine.connect()
     photos = vmMedias.getPhotosGalleryByGroup(
@@ -137,6 +144,7 @@ def getPhotosGroup(group):
 
 
 @api.route("/photosGallery", methods=["GET"])
+@cache.cached()
 def getPhotosGallery():
     connection = utils.engine.connect()
     photos = vmMedias.getPhotosGallery(
@@ -149,6 +157,7 @@ def getPhotosGallery():
 
 
 @api.route("/tes", methods=["GET"])
+@cache.cached()
 def test():
     connection = utils.engine.connect()
     photos = vmMedias.getPhotosGallery(
@@ -164,6 +173,7 @@ if current_app.config["EXTENDED_AREAS"]:
     from atlas.modeles.repositories import vmAreasRepository
 
     @api.route("/searchArea/<type_code>", methods=["get"])
+    @cache.cached()
     def searchArea(type_code):
         # try:
         session = utils.loadSession()
@@ -177,18 +187,21 @@ if current_app.config["EXTENDED_AREAS"]:
         #     return jsonify({"error": str(e)})
 
     @api.route("/observations/area/<id_area>", methods=["GET"])
+    @cache.cached()
     def getAreaObservations(id_area):
         session = utils.loadSession()
         observations = vmAreasRepository.get_areas_observations(session, id_area)
         return jsonify(observations)
 
     @api.route("/area/<id_area>/taxa", methods=["GET"])
+    @cache.cached()
     def getAreaTaxa(id_area):
         session = utils.loadSession()
         taxa = vmAreasRepository.get_area_taxa(session, id_area)
         return jsonify(taxa)
 
     @api.route("/observations/area/<id_area>/<int:cd_ref>", methods=["GET"])
+    @cache.cached()
     def get_area_point_observations(id_area, cd_ref):
         session = utils.loadSession()
         observations = vmAreasRepository.get_areas_observations_by_cdnom(
@@ -197,6 +210,7 @@ if current_app.config["EXTENDED_AREAS"]:
         return jsonify(observations)
 
     @api.route("/observationsMaille/area/<id_area>/<int:cd_ref>", methods=["GET"])
+    @cache.cached()
     def get_area_grid_observations(id_area, cd_ref):
         session = utils.loadSession()
         observations = vmAreasRepository.get_areas_grid_observations_by_cdnom(
