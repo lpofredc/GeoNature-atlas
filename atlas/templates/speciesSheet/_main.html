@@ -1,8 +1,11 @@
 {% extends "templates/core/layout.html" %}
 
-{% block title %}{% if taxon.taxonSearch.nom_vern %} {{ taxon.taxonSearch.nom_vern }}
-- {% endif %} {{ taxon.taxonSearch.lb_nom }} | {{ configuration.NOM_APPLICATION }}
-- {{ configuration.STRUCTURE }}{% endblock %}
+{% block title %}
+    {% if taxon.taxonSearch.nom_vern %} 
+    {{ taxon.taxonSearch.nom_vern }} - 
+    {% endif %} 
+    {{ taxon.taxonSearch.lb_nom }}
+{% endblock %}
 
 {% block additionalHeaderAssets %}
 <!-- Bootstrap slider -->
@@ -34,7 +37,12 @@
 <script>
     var dataset = {{ altitudes| tojson}};
     var months_value = {{ months | tojson}};
-    var months_name = {{ AVAILABLE_LANGUAGES[session.language]['months'] | tojson }};
+    {% if configuration.MULTILINGUAL %}
+    var months_name = {{ configuration.AVAILABLE_LANGUAGES[g.lang_code]['months'] | tojson }};
+    {% else %}
+    var months_name = {{ configuration.AVAILABLE_LANGUAGES[configuration.DEFAULT_LANGUAGE]['months'] | tojson }};
+
+    {% endif %}
     var observationsPoint = [];
     var observationsMaille = [];
     var configuration = {{ configuration| tojson}};
@@ -66,7 +74,7 @@
                 {% include 'templates/speciesSheet/map.html' %}
                 {% include 'templates/speciesSheet/otherInformations.html' %}
             </div>
-            
+
             <!--Right row-->
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                 {% if photoCarousel | length >= 1 %}

@@ -10,7 +10,7 @@ INSTALLATION
 Prérequis
 =========
 
-Application installable sur un serveur Debian 8, 9 ou 10 (Seul Debian 9 et 10 ont été "prouvé et testé).
+Application installable sur un serveur Debian 9, 10 et1 (seuls Debian 9 et 10 ont été prouvé et testé).
 
 Ce serveur doit aussi disposer de :
 
@@ -42,7 +42,7 @@ Adapter à votre version d'OS (ici Debian 9 Stretch) :
 
 
 **2. Récupérez la dernière version (X.Y.Z à remplacer par le numéro de version) de GeoNature-atlas (https://github.com/PnX-SI/GeoNature-atlas/releases)**
-	
+
 Ces opérations doivent être faites avec l'utilisateur courant (autre que ``root``), ``whoami`` dans l'exemple :
 
 ::
@@ -77,7 +77,6 @@ Le script ``install_env.sh`` va automatiquement installer les outils nécessaire
 - PostGIS
 - Apache 2
 - Python 3 et GDAL
-- Supervisor
 
 Lancer le script :
 
@@ -88,7 +87,7 @@ Lancer le script :
 
 **4. Installation de la base de données**
 
-Faites une copie du modèle de fichier de configuration de la BDD et de son installation automatique ``atlas/configuration/settings.ini.sample`` puis modifiez-le. 
+Faites une copie du modèle de fichier de configuration de la BDD et de son installation automatique ``atlas/configuration/settings.ini.sample`` puis modifiez-le.
 
 ::
 
@@ -96,7 +95,7 @@ Faites une copie du modèle de fichier de configuration de la BDD et de son inst
     cp settings.ini.sample settings.ini
     nano settings.ini
 
-NOTES : 
+NOTES :
 
 * Suivez bien les indications en commentaire dans ce fichier.
 
@@ -110,15 +109,15 @@ NOTES :
     psql
     CREATE USER geonatatlas WITH ENCRYPTED PASSWORD 'monpassachanger';
     \c geonature2db
-    GRANT USAGE ON SCHEMA gn_synthese, ref_geo, ref_nomenclatures, taxonomie TO geonatatlas;
-    GRANT SELECT ON ALL TABLES IN SCHEMA gn_synthese, ref_geo, ref_nomenclatures, taxonomie TO geonatatlas;
+    GRANT USAGE ON SCHEMA gn_synthese, ref_geo, ref_nomenclatures, taxonomie, utilisateurs, gn_meta TO geonatatlas;
+    GRANT SELECT ON ALL TABLES IN SCHEMA gn_synthese, ref_geo, ref_nomenclatures, taxonomie, utilisateurs, gn_meta TO geonatatlas;
     \q
     exit
 
 * GeoNature-atlas fonctionne avec des données géographiques qui doivent être fournies en amont (mailles, limite de territoire, limite de communes). Vous avez la possibilité de récupérer ces données directement depuis le référentiel géographique de GeoNature si les données y sont présentes (``use_ref_geo_gn2=true``); ou de fournir des fichiers shapefiles (à mettre dans le répertoire ``data/ref``)
-        
-**Attention** si ``use_ref_geo_gn2=true``. Par défaut le ``ref_geo`` contient l'ensemble des communes de France, ce qui ralentit fortement l'installation lorsqu'on construit la vue matérialisée ``vm_communes`` (qui intersecte les communes avec les limites du territoire). 
-    
+
+**Attention** si ``use_ref_geo_gn2=true``. Par défaut le ``ref_geo`` contient l'ensemble des communes de France, ce qui ralentit fortement l'installation lorsqu'on construit la vue matérialisée ``vm_communes`` (qui intersecte les communes avec les limites du territoire).
+
 Pour accelérer l'installation, vous pouvez "désactiver" certaines communes du ``ref_geo``, dont vous ne vous servez pas. Voir l'exemple de requête ci-dessous :
 
 ::
@@ -161,23 +160,6 @@ Lancez le fichier fichier d'installation de la base de données :
     cd /home/`whoami`/atlas
     ./install_db.sh
 
-/!\ Si vous avez un nombre de données supérieur à 1 million, préférez l'installation avec install_db_extended.sh /!\
-
-::
-
-    cd /home/`whoami`/atlas
-    ./install_db_extended.sh
-
-
-/!\ Si vous avez un nombre de données supérieur à 1 million, préférez l'installation avec install_db_extended.sh /!\
-
-
-::
-
-    cd /home/`whoami`/atlas
-    ./install_db_extended.sh
-
-
 
 :notes:
 
@@ -212,7 +194,7 @@ Le fichier de configuration central de l'application est ``atlas/configuration/c
 - Renseignez l'URL de l'application à partir de la racine du serveur WEB ('/atlas' ou '' par exemple)
 - Renseignez les autres paramètres selon votre contexte
 
-Après chaque modification de la configuration, relancer la commande ``sudo supervisorctl restart atlas`` pour qu'elles soient appliquées.
+Après chaque modification de la configuration, relancer la commande ``sudo systemctl restart geonature-atlas`` pour qu'elles soient appliquées.
 
 Customisation de l'application
 ==============================
@@ -261,7 +243,7 @@ Si l'atlas est associé à un domaine, ajoutez cette ligne au début du fichier 
     ServerName mondomaine.fr
 
 * Activer les modules et redémarrer Apache :
- 
+
 ::
 
     sudo a2enmod proxy
@@ -277,7 +259,7 @@ Si l'atlas est associé à un domaine, ajoutez cette ligne au début du fichier 
 
 :notes:
 
-    En cas d'erreur, les logs serveurs ne sont pas au niveau d'Apache (serveur proxy) mais de Gunicorn (serveur HTTP) dans ``/home/`whoami`/log/errors_atlas.log``
+    En cas d'erreur, les logs serveurs ne sont pas au niveau d'Apache (serveur proxy) mais de Gunicorn (serveur HTTP) dans ``/var/log/geonature-atlas.log``
 
 
 Mise à jour de l'application
@@ -290,7 +272,7 @@ Mise à jour de l'application
     cd /home/`whoami`
 
     wget https://github.com/PnX-SI/GeoNature-atlas/archive/X.Y.Z.zip
-    unzip X.Y.Z 
+    unzip X.Y.Z
     rm X.Y.Z
 
 - Renommer l'ancienne version de l'atlas puis la nouvelle version.
@@ -336,64 +318,30 @@ Accéder à votre BDD
 ===================
 
 Par défaut un serveur PostgreSQL n'écoute et n'autorise des connexions que du serveur lui-même (localhost).
+Il est possible mais déconseillé d'ouvrir l'accès à la BDD depuis une IP externe. Ou d'y accéder avec une connexion SSH (conseillé car plus sécurisé).
 
-Si vous souhaitez vous y connecter depuis un autre serveur ou PC, connectez-vous en SSH sur le serveur de la BDD de l'atlas, puis éditez les fichiers de configuration de PostgreSQL.
-
-Pour écouter toutes les IP, éditez le fichier ``postgresql.conf`` :
-
-::
-
-    sudo nano /etc/postgresql/9.6/main/postgresql.conf
-
-Remplacez ``listen_adress = 'localhost'`` par  ``listen_adress = '*'``. Ne pas oublier de décommenter la ligne (enlever le ``#``).
-
-Pour définir les IP qui peuvent se connecter au serveur PostgreSQL, éditez le fichier ``pg_hba.conf``
-
-::
-
-    sudo nano /etc/postgresql/9.6/main/pg_hba.conf
-
-Si vous souhaitez définir des IP qui peuvent se connecter à la BDD, sous la ligne ``# IPv4 local connections:``, rajouter :
-
-::
-
-    host    all     all     MON_IP_A_REMPLACER/0        md5  #Pour donner accès à une IP
-
-ou si vous souhaitez y donner accès depuis n'importe quelle IP, rajouter :
-
-::
-
-    host    all     all     0.0.0.0/0        md5
-
-Redémarrez PostgreSQL pour que ces modifications soient prises en compte :
-
-::
-
-    sudo /etc/init.d/postgresql restart
-
-Si votre atlas se connecte à une BDD mère distante qui contient les données sources (GeoNature, SICEN...), vous devez autoriser le serveur de l'atlas à s'y connecter.
-
-Connectez-vous en SSH sur le serveur hébergeant la BDD source, puis éditez la configuration de PostgreSQL :
-
-::
-
-    sudo nano /etc/postgresql/9.6/main/pg_hba.conf
-
-Rajouter cette ligne à la fin du fichier (en remplacant IP_DE_LA_BDD_ATLAS par son adresse IP) :
-
-::
-
-    host     all            all             IP_DE_LA_BDD_ATLAS/32       md5
-
-Redémarrez PostgreSQL pour que ces modifications soient prises en compte :
-
-::
-
-    sudo /etc/init.d/postgresql restart
-
+Voir https://github.com/PnX-SI/Ressources-techniques/blob/master/PostgreSQL/acces-bdd.rst
 
 Développement
 =============
+
+**Installer les dépendances de dev**
+
+::
+
+    source venv/bin/activate
+    pip install -r requirements-dev.txt
+
+**Lancement de l'application**
+
+Depuis la racine du dépôt:
+
+::
+
+    source venv/bin/activate
+    flask run
+
+Pour changer le port de l'application, désampler le fichier `atlas/.flaskenv.sample`` et éditer la variable `FLASK_RUN_PORT`
 
 **Technologies**
 

@@ -4,17 +4,18 @@ if [ "$(id -u)" == "0" ]; then
    exit 1
 fi
 
-if [ ! -d 'log' ]
-  then
-      mkdir log
-      touch log/errors_atlas.log
-fi
+# Make nvm available
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if [ ! -f ./atlas/configuration/settings.ini ]; then
   cp ./atlas/configuration/settings.ini.sample ./atlas/configuration/settings.ini
 fi
 
+set -a
 . atlas/configuration/settings.ini
+set +a
 
 if [ "$(id -u)" == "0" ]; then
    echo -e "\e[91m\e[1mThis script should NOT be run as root but your user needs sudo rights\e[0m" >&2
@@ -22,7 +23,7 @@ if [ "$(id -u)" == "0" ]; then
 fi
 
 echo "Stopping application..."
-sudo -s supervisorctl stop atlas
+sudo systemctl stop geonature-atlas
 
 echo "Creating and activating Virtual env..."
 
@@ -34,7 +35,9 @@ fi
 
 virtualenv -p $python_executable $venv_dir
 
+
 . $venv_dir/bin/activate
+
 
 echo "Installing requirements..."
 pip install -r requirements.txt
@@ -43,6 +46,7 @@ deactivate
 
 echo "Installing node packages"
 cd atlas/static
+nvm use
 npm i
 cd ../..
 
@@ -56,12 +60,13 @@ sed -i "s/GUNICORN_PORT = .*$/GUNICORN_PORT = '${gun_port}'/g" ./atlas/configura
 
 
 echo "Launching application..."
-DIR=$(readlink -e "${0%/*}")
-sudo -s cp  atlas-service.conf /etc/supervisor/conf.d/
-sudo -s sed -i "s%APP_PATH%${DIR}%" /etc/supervisor/conf.d/atlas-service.conf
+export BASE_DIR=$(readlink -e "${0%/*}")
+envsubst '${USER} ${BASE_DIR} ${gun_num_workers} ${gun_port}' < geonature-atlas.service | sudo tee /etc/systemd/system/geonature-atlas.service || exit 1
+sudo systemctl daemon-reload || exit 1
+sudo systemctl enable geonature-atlas || exit 1
+sudo systemctl start geonature-atlas || exit 1
 
-sudo -s supervisorctl reread
-sudo -s supervisorctl reload
+
 
 echo "Creating custom images folder if it doesnt already exist"
 if [ ! -d ./atlas/static/custom/images/ ]; then
@@ -86,6 +91,13 @@ fi
 if [ ! -f ./atlas/static/custom/templates/mentions-legales.html ]; then
   cp ./atlas/static/custom/templates/mentions-legales.html.sample ./atlas/static/custom/templates/mentions-legales.html
 fi
+if [ ! -f ./atlas/static/custom/templates/bandeaulogoshome.html ]; then
+  cp ./atlas/static/custom/templates/bandeaulogoshome.html.sample ./atlas/static/custom/templates/bandeaulogoshome.html
+fi
+if [ ! -f ./atlas/static/custom/templates/robots.txt ]; then
+  cp ./atlas/static/custom/templates/robots.txt.sample  ./atlas/static/custom/templates/robots.txt 
+fi
+
 if [ ! -f ./atlas/static/custom/custom.css ]; then
   cp ./atlas/static/custom/custom.css.sample ./atlas/static/custom/custom.css
 fi
@@ -107,3 +119,6 @@ fi
 if [ ! -f ./atlas/static/custom/maps-custom.js ]; then
   cp ./atlas/static/custom/maps-custom.js.sample ./atlas/static/custom/maps-custom.js
 fi
+
+
+

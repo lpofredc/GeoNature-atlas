@@ -32,6 +32,12 @@ sudo apachectl restart
 
 sudo apt-get install -y postgresql 
 
+if [ "$OS_VERSION" == "11" ]
+then
+    sudo apt-get install -y postgresql-server-dev-13
+    sudo apt install -y postgis postgresql-13-postgis-3
+fi
+
 if [ "$OS_VERSION" == "10" ]
 then
     sudo apt-get install -y postgresql-server-dev-11
@@ -43,11 +49,6 @@ then
     sudo apt-get install -y postgresql-server-dev-9.6 
     sudo apt install -y postgis-2.3 postgis postgresql-9.6-postgis-2.3 
 fi
-if [ "$OS_VERSION" == "8" ]
-then
-    sudo apt-get install -y postgresql-server-dev-9.4 
-    sudo apt install -y postgis-2.3 postgis 
-fi
 
 
 sudo apt-get install -y python-setuptools
@@ -58,7 +59,6 @@ sudo apt-get install -y python-gdal
 sudo apt-get install -y gdal-bin
 
 sudo apt-get install -y python3-virtualenv virtualenv
-sudo apt-get install -y supervisor
 
 # install nvm
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash

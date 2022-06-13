@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-28 09:41+0200\n"
+"POT-Creation-Date: 2021-12-02 15:28+0100\n"
 "PO-Revision-Date: 2021-07-12 12:12+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,15 +18,96 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: templates/areaSheet/_main.html:6
+#: static/custom/templates/bandeaulogoshome.html:5
+#: static/custom/templates/bandeaulogoshome.html.sample:5
+msgid "home.partners"
+msgstr "Partners"
+
+#: static/custom/templates/footer.html.sample:2 templates/home/_main.html:3
+msgid "home"
+msgstr "Home"
+
+#: static/custom/templates/footer.html.sample:5
+#: static/custom/templates/footer.html.sample:24
+msgid "credits"
+msgstr "Conception and credits"
+
+#: static/custom/templates/footer.html.sample:7
+#: static/custom/templates/footer.html.sample:41
+msgid "legal"
+msgstr "Legal mentions"
+
+#: static/custom/templates/footer.html.sample:12
+msgid "atlas.fauna.flora"
+msgstr "Faune and flora atlas"
+
+#: static/custom/templates/footer.html.sample:12
+#: static/custom/templates/introduction.html:7
+#: static/custom/templates/introduction.html.sample:7
+msgid "from1"
+msgstr "from"
+
+#: static/custom/templates/footer.html.sample:14
+msgid "powered.by"
+msgstr "Powered by"
+
+#: static/custom/templates/footer.html.sample:14
+msgid "developed.by"
+msgstr "developed by the"
+
+#: static/custom/templates/footer.html.sample:15
+msgid "ecrins.national.park"
+msgstr "Ecrins national park"
+
+#: static/custom/templates/introduction.html:6
+#: static/custom/templates/introduction.html.sample:6
+msgid "welcome.message"
+msgstr "Welcome to the fauna and flora atlas"
+
+#: static/custom/templates/introduction.html:7
+#: static/custom/templates/introduction.html.sample:7
+msgid "from2"
+msgstr "from"
+
+#: static/custom/templates/introduction.html:7
+#: static/custom/templates/introduction.html.sample:7
+msgid "from3"
+msgstr "from"
+
+#: static/custom/templates/introduction.html:7
+#: static/custom/templates/introduction.html.sample:7
+msgid "from4"
+msgstr "from"
+
+#: static/custom/templates/introduction.html:7
+#: static/custom/templates/introduction.html.sample:7
+msgid "from5"
+msgstr "from"
+
+#: static/custom/templates/introduction.html:11
+#: static/custom/templates/introduction.html.sample:11
+msgid "home.introduction.message"
+msgstr ""
+"This atlas provides you with the whole wild species observed in the "
+"territory. Each new observation feeds in real time the sheets of each "
+"species you consult, in a desire to share and enrich knowledge about "
+"biodiversity. <br/> <br/>This atlas presents observations carried out "
+"under different scientific protocols. This is not an exhaustive inventory"
+" nor a complete distribution of species in the territory."
+
+#: static/custom/templates/presentation.html.sample:4
+msgid "atlas.presentation"
+msgstr "Atlas presentation"
+
+#: templates/areaSheet/_main.html:6 templates/areaSheet/_main.html:59
 msgid "municipality.of"
 msgstr "Municipality of "
 
-#: templates/areaSheet/_main.html:71
+#: templates/areaSheet/_main.html:70
 msgid "last.obs.municipality"
 msgstr "Latest observations in the municipality of"
 
-#: templates/areaSheet/_main.html:74
+#: templates/areaSheet/_main.html:73
 msgid "last.obs.zone"
 msgstr "Latest observations in the zone"
 
@@ -36,7 +117,62 @@ msgstr "Associated areas"
 
 #: templates/areaSheet/surrounding_areas.html:23
 msgid "check.area.sheet"
-msgstr "Check area sheet"
+msgstr "View area sheet"
+
+#: templates/core/advanced_search.html:4
+#: templates/core/advanced_search.html:382 templates/core/sideBar.html:20
+msgid "advanced_search"
+msgstr "Advanced search"
+
+#: templates/core/advanced_search.html:350
+msgid "information"
+msgstr "Information"
+
+#: templates/core/advanced_search.html:351
+#: templates/core/advanced_search.html:361
+msgid "close"
+msgstr "Close"
+
+#: templates/core/advanced_search.html:357
+msgid "asearch.information"
+msgstr ""
+"This page allows you to superimpose the distribution of several species "
+"simultaneously. <br/> <br/> For reasons of visibility of distributions on"
+" map, the total number of species is limited to 3."
+
+#: templates/core/advanced_search.html:373
+msgid "page.information"
+msgstr "See information about this page"
+
+#: templates/core/advanced_search.html:385
+#: templates/core/advanced_search.html:408
+msgid "asearch.max"
+msgstr "You cannot add more than 3 species"
+
+#: templates/core/advanced_search.html:392
+msgid "asearch.search.species"
+msgstr "Search a species"
+
+#: templates/core/advanced_search.html:395
+msgid "asearch.search.start"
+msgstr "Start typing the name of a species"
+
+#: templates/core/advanced_search.html:419
+msgid "asearch.remove.selection"
+msgstr "Remove selection"
+
+#: templates/core/advanced_search.html:427 templates/core/listTaxons.html:88
+#: templates/home/lastObs.html:44 templates/home/mostViewNow.html:33
+#: templates/home/newSpecies.html:45 templates/home/taxoRank.html:57
+#: templates/organismSheet/topSpecies.html:67
+msgid "species.sheet"
+msgstr "Species sheet"
+
+#: templates/core/advanced_search.html:429 templates/core/listTaxons.html:87
+#: templates/core/tabTaxons.html:85 templates/organismSheet/topSpecies.html:66
+#: templates/speciesSheet/identityCard.html:173
+msgid "check.species.sheet"
+msgstr "View species sheet"
 
 #: templates/core/extended_areas_search.html:13
 msgid "search.other.zones.type"
@@ -47,13 +183,12 @@ msgid "filter.species"
 msgstr "Filter species"
 
 #: templates/core/listTaxons.html:23
-#, fuzzy
 msgid "display.municipality.obs"
-msgstr "Municipality of "
+msgstr "View observations on the territory"
 
 #: templates/core/listTaxons.html:81 templates/core/statHierarchy.html:7
 #: templates/home/globalStats.html:12
-#: templates/organismSheet/topSpecies.html:60
+#: templates/organismSheet/topSpecies.html:61
 #: templates/speciesSheet/map.html:15
 msgid "observation"
 msgstr "Observation"
@@ -61,27 +196,16 @@ msgstr "Observation"
 #: templates/core/listTaxons.html:82 templates/core/statHierarchy.html:7
 #: templates/core/tabTaxons.html:19 templates/home/globalStats.html:12
 #: templates/organismSheet/statsInfos.html:11
-#: templates/organismSheet/topSpecies.html:60
+#: templates/organismSheet/topSpecies.html:61
 #: templates/speciesSheet/identityCard.html:131
 #: templates/speciesSheet/map.html:15
+#: templates/speciesSheet/otherInformations.html:137
 msgid "observations"
 msgstr "Observations"
 
 #: templates/core/listTaxons.html:83
 msgid "last.obs.in"
 msgstr "Latest observations within"
-
-#: templates/core/listTaxons.html:87 templates/core/tabTaxons.html:85
-#: templates/organismSheet/topSpecies.html:65
-#: templates/speciesSheet/identityCard.html:173
-msgid "check.species.sheet"
-msgstr "Check species sheet"
-
-#: templates/core/listTaxons.html:88 templates/home/mostViewNow.html:33
-#: templates/home/newSpecies.html:35 templates/home/taxoRank.html:57
-#: templates/organismSheet/topSpecies.html:66
-msgid "species.sheet"
-msgstr "Species sheet"
 
 #: templates/core/loaderSpinner.html:3
 msgid "loading"
@@ -100,7 +224,7 @@ msgstr "Search by municipality"
 msgid "back.to.home"
 msgstr "Back home"
 
-#: templates/core/sideBar.html:20 templates/home/globalStats.html:59
+#: templates/core/sideBar.html:25 templates/home/globalStats.html:59
 #: templates/photoGalery/_main.html:5 templates/photoGalery/_main.html:50
 msgid "gallery.title"
 msgstr "Photos gallery"
@@ -184,7 +308,7 @@ msgstr "Photo"
 
 #: templates/home/mostViewNow.html:5
 msgid "see.at.the.moment"
-msgstr "See at the moment"
+msgstr "To see at the moment"
 
 #: templates/home/mostViewNow.html:7
 msgid "species.most.obs.last.15.days"
@@ -192,7 +316,7 @@ msgstr ""
 "Most common species observed in the 15 days before and after today, all "
 "years combined"
 
-#: templates/home/newSpecies.html:8
+#: templates/home/newSpecies.html:10
 msgid "new.species.observed"
 msgstr "New species observed"
 
@@ -208,11 +332,11 @@ msgstr "Other information"
 msgid "part.graph"
 msgstr "Distribution of observations by family"
 
-#: templates/organismSheet/identityCard.html:19
-msgid "Région/département rattaché"
-msgstr "Attached region/department"
+#: templates/organismSheet/identityCard.html:21
+msgid "Adresse"
+msgstr ""
 
-#: templates/organismSheet/identityCard.html:20
+#: templates/organismSheet/identityCard.html:22
 msgid "Téléphone"
 msgstr "Phone"
 
@@ -232,17 +356,17 @@ msgstr "Atlas participation"
 msgid "top.species"
 msgstr "Most observed species"
 
-#: templates/organismSheet/topSpecies.html:61
+#: templates/organismSheet/topSpecies.html:62
 msgid "from.organism.observations"
 msgstr "of the organism's observations"
 
-#: templates/photoGalery/_main.html:64
-msgid "all.groups.tooltip"
-msgstr "Show photos of all groups"
-
-#: templates/photoGalery/_main.html:65
+#: templates/photoGalery/_main.html:64 templates/photoGalery/_main.html:65
 msgid "all.groups"
 msgstr "All groups"
+
+#: templates/photoGalery/_main.html:70
+msgid "order.photos"
+msgstr "Sort photos by number of observations"
 
 #: templates/speciesSheet/audioVideo.html:7
 msgid "Video"
@@ -299,7 +423,7 @@ msgstr "Author"
 
 #: templates/speciesSheet/identityCard.html:95
 msgid "check.species.sheet.inpn"
-msgstr "Check species's sheet on INPN"
+msgstr "View species sheet on INPN"
 
 #: templates/speciesSheet/identityCard.html:126
 msgid "protection"
@@ -325,6 +449,14 @@ msgstr "Title"
 msgid "date"
 msgstr "Date"
 
+#: templates/speciesSheet/otherInformations.html:137
+msgid "organism.participation"
+msgstr "Participation to "
+
+#: templates/speciesSheet/otherInformations.html:138
+msgid "organism.prospection"
+msgstr "Proportion of prospecting assistance"
+
 #: templates/speciesSheet/otherInformations.html:144
 msgid "check.organism.sheet"
 msgstr "View organism sheet"
@@ -337,33 +469,3 @@ msgstr "Organism sheet"
 msgid "species.obs.for.tax"
 msgstr "Specific observations for this taxon"
 
-#~ msgid "welcome.message"
-#~ msgstr "Welcome to the fauna and flora atlas"
-
-#~ msgid "home.introduction.message"
-#~ msgstr ""
-#~ "The ALCOTRA atlas is the result of"
-#~ " a Franco-Italian cross-border "
-#~ "collaboration.Resulting from action WP4.2 of"
-#~ " the COBIODIV project included in the"
-#~ " PITEM Biodiv'ALP, this atlas was set"
-#~ " up by the Ecrins National Park "
-#~ "IS team and Natural Solutions. "
-#~ "<br/><br/>This atlas puts at your "
-#~ "disposal the observations of wild "
-#~ "species made in the ALCOTRA area. "
-#~ "The data come from different structures"
-#~ " presented below, each with its own"
-#~ " presentation sheet. <br/><br/>"
-
-#~ msgid "My custom presentation"
-#~ msgstr "My custom presentation"
-
-#~ msgid "see.repartition.on.territory"
-#~ msgstr "Display observation on territory"
-
-#~ msgid "last.obs.since"
-#~ msgstr "Latest observations in the last"
-
-#~ msgid "days"
-#~ msgstr "days"
