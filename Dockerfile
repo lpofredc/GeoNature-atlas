@@ -5,7 +5,7 @@ COPY atlas/static/package.json ./
 RUN npm install
 
 
-FROM python:3.9.7-bullseye
+FROM python:3.10-bullseye
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -38,5 +38,4 @@ COPY --from=builder /app/node_modules /atlas/app/atlas/static/node_modules/
 
 EXPOSE 8080
 
-# ENTRYPOINT [ "/atlas/app/docker-entrypoint.sh" ]
-ENTRYPOINT [ "bash" ]
+ENTRYPOINT [ "bash", "/atlas/app/docker-entrypoint.sh" ]

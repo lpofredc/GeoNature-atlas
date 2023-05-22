@@ -1,0 +1,9 @@
+services:
+  gnatlas:
+    image: gnatlas
+    build: .
+    ports: 
+      - 8081:8081
+    volumes:
+      - ./:/atlas/app
+    

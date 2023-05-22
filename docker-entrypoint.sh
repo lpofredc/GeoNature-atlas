@@ -64,10 +64,8 @@ echo "$FLASKDIR"
 
 export PYTHONPATH=$FLASKDIR:$PYTHONPATH
 
+cp .flaskenv.sample .flaskenv
+echo "FLASK_RUN_HOST=0.0.0.0" >> .flaskenv
+
 # Start your unicorn
-exec gunicorn atlas.wsgi:app --error-log $FLASKDIR/log/errors_atlas.log \
-    --pid="${app_name}.pid" \
-    --timeout=${gun_timeout} \
-    -w "${gun_num_workers}" \
-    -b "${gun_host}:${gun_port}" \
-    -n "${app_name}"
+flask run
