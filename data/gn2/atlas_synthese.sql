@@ -6,7 +6,7 @@ WITH areas AS (SELECT DISTINCT ON (sa.id_synthese, t.type_code) sa.id_synthese,
                                                                 a.centroid,
                                                                 st_transform(centroid, 4326) AS centroid_4326,
                                                                 t.type_code
-               FROM synthese.v_c_cor_area_synthese_abi_sem sa
+               FROM synthese.mv_c_cor_area_synthese_abi_sem sa
                         JOIN ref_geo.l_areas a ON sa.id_area = a.id_area
                         JOIN ref_geo.bib_areas_types t ON a.id_type = t.id_type
                WHERE type_code IN ('M10', 'COM', 'DEP')),
@@ -36,13 +36,13 @@ WITH areas AS (SELECT DISTINCT ON (sa.id_synthese, t.type_code) sa.id_synthese,
                              END                               AS the_geom_point,
                          s.count_min                           AS effectif_total,
                          dl.cd_nomenclature::INT               AS diffusion_level
-                  FROM synthese.v_c_synthese_abi_sem s
+                  FROM synthese.mv_c_synthese_abi_sem s
                            LEFT OUTER JOIN synthese.t_nomenclatures dl
                                            ON s.id_nomenclature_diffusion_level = dl.id_nomenclature
                            LEFT OUTER JOIN synthese.t_nomenclatures st
                                            ON s.id_nomenclature_observation_status = st.id_nomenclature
                   WHERE (NOT dl.cd_nomenclature = '4'::TEXT OR
-                         id_nomenclature_diffusion_level IS NULL) -- Filtre données non diffusable code "4" ou pas de diffusion spécifiée
+                         s.id_nomenclature_diffusion_level IS NULL) -- Filtre données non diffusable code "4" ou pas de diffusion spécifiée
                     AND st.cd_nomenclature = 'Pr'-- seulement les données présentes (status_observation = )
      )
 SELECT d.id_synthese,
