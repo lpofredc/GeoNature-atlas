@@ -20,17 +20,20 @@ WITH areas AS (SELECT DISTINCT ON (sa.id_synthese, t.type_code) sa.id_synthese,
                              WHEN dl.cd_nomenclature = '1' THEN
                                  (SELECT centroid_4326
                                   FROM areas a
-                                  WHERE a.id_synthese = s.id_synthese AND type_code = 'COM'
+                                  WHERE a.id_synthese = s.id_synthese
+                                    AND type_code = 'COM'
                                   LIMIT 1)
                              WHEN dl.cd_nomenclature = '2' THEN
                                  (SELECT centroid_4326
                                   FROM areas a
-                                  WHERE a.id_synthese = s.id_synthese AND type_code = 'M10'
+                                  WHERE a.id_synthese = s.id_synthese
+                                    AND type_code = 'M10'
                                   LIMIT 1)
                              WHEN dl.cd_nomenclature = '3' THEN
                                  (SELECT centroid_4326
                                   FROM areas a
-                                  WHERE a.id_synthese = s.id_synthese AND type_code = 'DEP'
+                                  WHERE a.id_synthese = s.id_synthese
+                                    AND type_code = 'DEP'
                                   LIMIT 1)
                              ELSE st_transform(s.the_geom_point, 4326)
                              END                               AS the_geom_point,
@@ -57,3 +60,8 @@ SELECT d.id_synthese,
        diffusion_level
 FROM obs_data d
          JOIN atlas.l_communes c ON st_intersects(d.the_geom_point, c.the_geom);
+
+
+SELECT count(*)
+FROM synthese.mv_c_cor_area_synthese_abi_sem
+;
