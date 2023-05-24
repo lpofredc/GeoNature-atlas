@@ -240,8 +240,9 @@ def index():
     )
 
 
-@main.route("/espece/<int:cd_nom>", methods=["GET", "POST"])
+@main.route("/espece/<int(signed=True):cd_nom>", methods=["GET", "POST"])
 def ficheEspece(cd_nom):
+    current_app.logger.debug(f"ficheEspece CDNOM {cd_nom}")
     db_session = utils.loadSession()
     connection = utils.engine.connect()
 

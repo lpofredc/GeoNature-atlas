@@ -34,7 +34,7 @@ def searchCommuneAPI():
     return jsonify(results)
 
 if not current_app.config['AFFICHAGE_MAILLE']:
-    @api.route("/observationsMailleAndPoint/<int:cd_ref>", methods=["GET"])
+    @api.route("/observationsMailleAndPoint/<int(signed=True):cd_ref>", methods=["GET"])
     def getObservationsMailleAndPointAPI(cd_ref):
         """
             Retourne les observations d'un taxon en point et en maille
@@ -52,7 +52,7 @@ if not current_app.config['AFFICHAGE_MAILLE']:
         return jsonify(observations)
 
 
-@api.route("/observationsMaille/<int:cd_ref>", methods=["GET"])
+@api.route("/observationsMaille/<int(signed=True):cd_ref>", methods=["GET"])
 def getObservationsMailleAPI(cd_ref, year_min=None, year_max=None):
     """
         Retourne les observations d'un taxon par maille (et le nombre d'observation par maille)
@@ -73,7 +73,7 @@ def getObservationsMailleAPI(cd_ref, year_min=None, year_max=None):
 
 
 if not current_app.config['AFFICHAGE_MAILLE']:
-    @api.route("/observationsPoint/<int:cd_ref>", methods=["GET"])
+    @api.route("/observationsPoint/<int(signed=True):cd_ref>", methods=["GET"])
     def getObservationsPointAPI(cd_ref):
         session = utils.loadSession()
         observations = vmObservationsRepository.searchObservationsChilds(session, cd_ref)
@@ -82,7 +82,7 @@ if not current_app.config['AFFICHAGE_MAILLE']:
 
 
 
-@api.route("/observations/<int:cd_ref>", methods=["GET"])
+@api.route("/observations/<int(signed=True):cd_ref>", methods=["GET"])
 def getObservationsGenericApi(cd_ref: int):
     """[summary]
 
@@ -104,7 +104,7 @@ def getObservationsGenericApi(cd_ref: int):
     
 
 if not current_app.config['AFFICHAGE_MAILLE']:
-    @api.route("/observations/<insee>/<int:cd_ref>", methods=["GET"])
+    @api.route("/observations/<insee>/<int(signed=True):cd_ref>", methods=["GET"])
     def getObservationsCommuneTaxonAPI(insee, cd_ref):
         connection = utils.engine.connect()
         observations = vmObservationsRepository.getObservationTaxonCommune(
@@ -114,7 +114,7 @@ if not current_app.config['AFFICHAGE_MAILLE']:
         return jsonify(observations)
 
 
-@api.route("/observationsMaille/<insee>/<int:cd_ref>", methods=["GET"])
+@api.route("/observationsMaille/<insee>/<int(signed=True):cd_ref>", methods=["GET"])
 def getObservationsCommuneTaxonMailleAPI(insee, cd_ref):
     connection = utils.engine.connect()
     observations = vmObservationsMaillesRepository.getObservationsTaxonCommuneMaille(
