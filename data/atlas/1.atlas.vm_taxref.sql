@@ -14,7 +14,7 @@ CREATE INDEX ON atlas.vm_taxref (nom_valide);
 -- Rangs de taxref ordonnés
 
 CREATE TABLE atlas.bib_taxref_rangs (
-    id_rang character(4) NOT NULL,
+    id_rang character(4) NOT NULL UNIQUE,
     nom_rang character varying(20) NOT NULL,
     tri_rang integer
 );

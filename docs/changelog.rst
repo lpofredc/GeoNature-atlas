@@ -2,6 +2,14 @@
 CHANGELOG
 =========
 
+1.7.3 (2025-xx-xx)
+------------------
+
+🐛 **Corrections**
+
+* Amélioration des performances de la création de la vue matérialisée `atlas.vm_observations`.
+
+
 1.7.2 (2025-09-17)
 ------------------
 
