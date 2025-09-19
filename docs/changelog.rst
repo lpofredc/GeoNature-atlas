@@ -16,6 +16,7 @@ CHANGELOG
 🐛 **Corrections**
 
 * Correction du script de migration `1.6.1to1.7.0.sql`
+* Correction du chemin vers les audio et vidéo hebergées depuis TaxHub (@gildeluermoz)
 
 1.7.1 (2025-09-02)
 ------------------
